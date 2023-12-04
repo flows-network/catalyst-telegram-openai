@@ -31,18 +31,26 @@ async fn handler(update: tg_flows::Update) {
     if let UpdateKind::Message(msg) = update.kind {
         let text = msg.text().unwrap_or("");
         let chat_id = msg.chat.id;
+        log::info!("chat_id is {}", chat_id);
+
+        if text == "/start" {
+            _ = tele.send_message(chat_id, "Hello, I am ready!");
+            return;
+        }
 
         let thread_id = match catalyst_client.get_state(&catalyst_kvstore, chat_id.to_string().as_str()).await {
             Ok(ti) => match text == "/restart" {
                 true => {
                     delete_thread(ti.as_str().unwrap()).await;
                     let _ = catalyst_client.delete_state(&catalyst_kvstore, chat_id.to_string().as_str()).await;
+                    _ = tele.send_message(chat_id, "Great! Lets start a new conversation.");
                     return;
                 }
                 false => ti.as_str().unwrap().to_owned(),
             },
             Err(_error) => {
                 let ti = create_thread().await;
+                log::info!("new ti is {}", ti);
                 let _ = catalyst_client.save_state(
                     &catalyst_kvstore, 
                     json!([{"key":chat_id.to_string().as_str(), "value":ti.as_str()}])
@@ -50,6 +58,7 @@ async fn handler(update: tg_flows::Update) {
                 ti
             }
         };
+        log::info!("thread_id is {}", thread_id);
 
         let response = run_message(thread_id.as_str(), String::from(text)).await;
         _ = tele.send_message(chat_id, response);
