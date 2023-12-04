@@ -118,7 +118,7 @@ async fn run_message(thread_id: &str, text: String) -> String {
         .id;
 
     let mut result = Some("Timeout");
-    for _ in 0..5 {
+    for _ in 0..20 {
         log::info!("Wait for OpenAI return ...");
         tokio::time::sleep(std::time::Duration::from_secs(2)).await;
         let run_object = client
