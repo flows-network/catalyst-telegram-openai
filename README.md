@@ -13,15 +13,17 @@ The Catalyst service provides a key-value store itself. But more interestingly, 
 ## Deploy on flows.network
 
 * Fork the GitHub repo for the flow function's source code
-* Import the repo from your flows.network account to create your own instance of the flow function
-* Set variables in the Advanced tab
-    * `telegram_token` -- The access token for your telegram bot created by the botfather 
-    * `OPENAI_API_KEY` -- The OpenAI API key
-    * `openai_assistant_id` -- The ID for the OpenAI assistant you created
-    * `catalyst_token` -- The access token for your Catalyst account
-    * `catalyst_url` -- The HTTPS access URL for your Catalyst project
-    * `catalyst_kvstore` -- The name of your Catalyst application's kvstore
-* Deploy
+* In flows.network
+    * Create a flow
+    * Import the above forked repo
+    * Set variables in the Advanced tab
+        * `telegram_token` -- The access token for your telegram bot created by the botfather 
+        * `OPENAI_API_KEY` -- The OpenAI API key
+        * `openai_assistant_id` -- The ID for the OpenAI assistant you created
+        * `catalyst_token` -- The access token for your Catalyst account
+        * `catalyst_url` -- The HTTPS access URL for your Catalyst project
+        * `catalyst_kvstore` -- The name of your Catalyst application's kvstore
+    * Deploy
 * Send a message to your telegram bot
 
 
