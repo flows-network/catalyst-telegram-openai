@@ -45,7 +45,7 @@ async fn handler(update: tg_flows::Update) {
                 let ti = create_thread().await;
                 let _ = catalyst_client.save_state(
                     &catalyst_kvstore, 
-                    json!({"key":chat_id.to_string().as_str(), "value":ti.as_str()})
+                    json!([{"key":chat_id.to_string().as_str(), "value":ti.as_str()}])
                 ).await;
                 ti
             }
