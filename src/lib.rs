@@ -60,8 +60,9 @@ async fn handler(update: tg_flows::Update) {
         };
         log::info!("thread_id is {}", thread_id);
 
+        let placeholder = tele.send_message(chat_id, "Typing ...").unwrap();
         let response = run_message(thread_id.as_str(), String::from(text)).await;
-        _ = tele.send_message(chat_id, response);
+        _ = tele.edit_message_text(chat_id, placeholder.id, response);
     }
 }
 
