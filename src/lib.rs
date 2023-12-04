@@ -119,6 +119,7 @@ async fn run_message(thread_id: &str, text: String) -> String {
 
     let mut result = Some("Timeout");
     for _ in 0..5 {
+        log::info!("Wait for OpenAI return ...");
         tokio::time::sleep(std::time::Duration::from_secs(2)).await;
         let run_object = client
             .threads()
@@ -128,6 +129,7 @@ async fn run_message(thread_id: &str, text: String) -> String {
             .unwrap();
         result = match run_object.status {
             RunStatus::Queued | RunStatus::InProgress | RunStatus::Cancelling => {
+                log::info!("Continue ...");
                 continue;
             }
             RunStatus::RequiresAction => Some("Action required for OpenAI assistant"),
@@ -136,6 +138,7 @@ async fn run_message(thread_id: &str, text: String) -> String {
             RunStatus::Expired => Some("Run is expired"),
             RunStatus::Completed => None,
         };
+        log::info!("Break ...");
         break;
     }
 
